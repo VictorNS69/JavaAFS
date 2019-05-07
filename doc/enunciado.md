@@ -16,7 +16,7 @@ Evidentemente, dadas las limitaciones de este trabajo, el sistema a desarrollar 
 - Asimismo, se usa la clase RandomAccessFile para el acceso interno, tanto local como remoto, a los datos del fichero.
 
 Para completar esta sección introductoria, se incluyen, a continuación, dos fragmentos de código que permiten apreciar las diferencias entre el API de acceso de lectura/escritura a un fichero local usando la clase RandomAccessFile, en la que se inspira el API planteado, y el correspondiente al acceso remoto utilizando el servicio que se pretende desarrollar:
-```jv
+```java
 // acceso local
 try {
 RandomAccessFile f = new RandomAccessFile("fich", "rw");
@@ -34,7 +34,7 @@ catch (IOException e) {
 e.printStackTrace();
 }
 ```
-```jv
+```java
 // acceso remoto (en negrilla aparecen los cambios respecto a un acceso local)
 try {
 // iniciación de la parte cliente
