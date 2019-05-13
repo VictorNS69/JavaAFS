@@ -138,9 +138,9 @@ A continuación, se detallan los cambios a realizar:
 - Como parte del desarrollo, tendrá que realizar los imports requeridos (por ejemplo, de java.io), así como la propagación de las excepciones (throws) pertinentes. Así, por ejemplo, tanto el constructor de ViceReaderImpl como el método download que activa este constructor deben propagar la excepción FileNotFoundException que generará la clase _RandomAccessFile_ si el fichero no existe, para que, de esta forma, el cliente sea notificado de esta circunstancia.
 
 Para terminar esta sección, se considera conveniente realizar una aclaración sobre el método remoto read. De forma intutiva, parecería más razonable usar una declaración similar a la del método del mismo nombre de la clase RandomAccessFile permitiendo de esta forma una implementación directa del mismo:
-```jv
- public int read(byte[] b) throws ...
-        return f.read(b); // siendo f un objeto de tipo RandomAccessFile
+```java
+public int read(byte[] b) throws ...
+       return f.read(b); // siendo f un objeto de tipo RandomAccessFile
     }
 ```
 Sin embargo, este modo de operación no es correcto en Java RMI ya que este método remoto devolvería la información leída en un parámetro pasado por referencia y Java RMI no permite ese tipo de paso de información. Es por ello que en la definición propuesta la información leída se devuelve como retorno del método remoto.
