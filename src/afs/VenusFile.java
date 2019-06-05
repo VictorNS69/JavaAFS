@@ -11,12 +11,14 @@ public class VenusFile {
     private Venus venus;
     private String mode;
     private String filename;
+    private boolean modified;
     
     @SuppressWarnings("static-access")
 	public VenusFile(Venus venus, String fileName, String mode) throws RemoteException, IOException, FileNotFoundException {
     	this.venus = venus;
     	this.mode = mode;
     	this.filename = fileName;
+    	this.modified = false;
     	File file_cache = new File("./" + cacheDir + fileName);
     	if (!file_cache.exists()) // && this.mode.equals("r")) 
     		downloadFile(fileName, mode);
@@ -29,6 +31,7 @@ public class VenusFile {
     }
     
     public void write(byte[] b) throws RemoteException, IOException {
+    	this.modified = true;
         this.raf.write(b);
     }
     
@@ -37,11 +40,13 @@ public class VenusFile {
     }
     
     public void setLength(long l) throws RemoteException, IOException {
+    	this.modified = true;
         this.raf.setLength(l);
     }
     
     public void close() throws RemoteException, IOException {
-        if(this.mode.equals("rw")) {
+        if(this.mode.equals("rw") && this.modified) {
+        	System.out.println("UPLOADING!");
         	this.raf.seek(0);
         	byte[] bytes = new byte[(int)this.raf.length()];
         	read(bytes);
