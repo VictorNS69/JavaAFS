@@ -20,7 +20,7 @@ cp afs_* ../cliente4/
 cp afs_* ../servidor/
 
 # Also in src in case it is needed
-cp afs_* ../
+#cp afs_* ../
 
 # Compile the server and run it
 cd ../servidor
