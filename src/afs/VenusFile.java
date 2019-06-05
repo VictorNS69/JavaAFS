@@ -18,10 +18,9 @@ public class VenusFile {
     	this.mode = mode;
     	this.filename = fileName;
     	File file_cache = new File("./" + cacheDir + fileName);
-    	boolean exist_cache = file_cache.exists();
-    	if (!exist_cache && this.mode.equals("r")) {
+    	if (!file_cache.exists()) // && this.mode.equals("r")) 
     		downloadFile(fileName, mode);
-    	}
+    	
     	this.raf = new RandomAccessFile("./" + this.cacheDir + fileName, mode);
     }
     
