@@ -26,3 +26,6 @@ src/.classpath
 src/.gitignore
 src/.project
 /bin/
+
+*AFSDir/
+*Cache/
