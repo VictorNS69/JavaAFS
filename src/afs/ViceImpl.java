@@ -12,12 +12,12 @@ public class ViceImpl extends UnicastRemoteObject implements Vice {
     
     public ViceReader download(String fileName, String mode)
           throws RemoteException, FileNotFoundException {
-        ViceReaderImpl vri = new ViceReaderImpl(fileName, mode);
-    	return vri;
-    }
+        return new ViceReaderImpl(fileName, mode);
+     }
     
-    public ViceWriter upload(String fileName /* añada los parámetros que requiera */)
-          throws RemoteException {
-        return null;
+    public ViceWriter upload(String fileName, String mode)
+          throws RemoteException, FileNotFoundException {
+    	System.out.println("File name ---> "+ fileName);
+        return new ViceWriterImpl(fileName, "rw");
     }
 }

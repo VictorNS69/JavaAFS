@@ -7,8 +7,8 @@ import java.rmi.*;
 public interface Vice extends Remote {
     public ViceReader download(String fileName, String mode)
           throws RemoteException, FileNotFoundException;
-    public ViceWriter upload(String fileName)
-          throws RemoteException;
+    public ViceWriter upload(String fileName, String mode)
+          throws RemoteException, FileNotFoundException;
 
     /* añada los métodos remotos que requiera */
 }

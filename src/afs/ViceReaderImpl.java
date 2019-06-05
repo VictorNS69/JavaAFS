@@ -13,9 +13,7 @@ public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     @SuppressWarnings("static-access")
 	public ViceReaderImpl(String fileName, String mode)
 		    throws RemoteException, FileNotFoundException {
-    	System.out.println("FILE -->" + this.AFSDir + fileName);
     	this.raf = new RandomAccessFile(this.AFSDir + fileName, mode);
-    	System.out.println("DEBAJO DE ESTO QUE SE YO");
     }
     
     public byte[] read(int tam) throws IOException {
@@ -28,7 +26,7 @@ public class ViceReaderImpl extends UnicastRemoteObject implements ViceReader {
     }
     
     public long getSize() throws IOException {
-    	return raf.length();
+    	return this.raf.length();
     }
 }       
 
