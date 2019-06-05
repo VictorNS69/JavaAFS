@@ -2,6 +2,7 @@
 
 # Move to one client (cliente1)
 cd cliente1
+
 # Compile the test
 ./compila_test.sh
 

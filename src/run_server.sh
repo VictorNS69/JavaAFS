@@ -10,23 +10,40 @@ cd afs
 # and compile JARS
 ./compila_y_construye_JARS.sh 
 
-# Copy all the JARS in all the clients
-cp afs_* ../cliente1/ 
-cp afs_* ../cliente2/
-cp afs_* ../cliente3/
-cp afs_* ../cliente4/
+# Copy all the JARS in all the clients and create Cache directory
+cd ../cliente1
+ln -sf ../afs/afs_* .
+mkdir -p Cache
+
+cd ../cliente2
+ln -sf ../afs/afs_* .
+mkdir -p Cache
+
+cd ../cliente3
+ln -sf ../afs/afs_* .
+mkdir -p Cache
+
+cd ../cliente4
+ln -sf ../afs/afs_* .
+mkdir -p Cache
 
 # Also in the server
-cp afs_* ../servidor/
+cd ../servidor
+ln -sf ../afs/afs_* .
 
-# Also in src in case it is needed
-#cp afs_* ../
+# Add some files to test
+rm -rf AFSDir
+mkdir -p AFSDir
+cd AFSDir
+echo "Prueba 1" >> p1
+echo "Prueba 2" >> p2
+echo "12345 67890" >> pn
+echo "Lineas con
+saltos" >> ps
 
 # Compile the server and run it
-cd ../servidor
+cd ../../servidor
 ./compila_servidor.sh
 ./arranca_rmiregistry 10048 &
 ./ejecuta_servidor.sh 10048 
-
-
 
