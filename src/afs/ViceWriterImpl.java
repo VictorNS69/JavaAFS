@@ -18,7 +18,6 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
     }
     
     public void write(byte [] b) throws IOException {
-        this.raf.setLength(0);
         this.raf.write(b);
     }
     

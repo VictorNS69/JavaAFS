@@ -48,9 +48,7 @@ public class VenusFile {
         if(this.mode.equals("rw") && this.modified) {
         	System.out.println("UPLOADING!");
         	this.raf.seek(0);
-        	byte[] bytes = new byte[(int)this.raf.length()];
-        	read(bytes);
-        	uploadFile(bytes);
+        	uploadFile(this.filename);
         }
         this.raf.close();
     }
@@ -74,12 +72,19 @@ public class VenusFile {
     	raf.close();
     }
     
-    public void uploadFile(byte[] bytes) throws RemoteException, IOException{
-    	System.out.println("UPLOAD!");
-    	ViceWriter vw = this.venus.vice.upload(this.filename, "rw");
-    	System.out.println("Fin UPLOAD");
-    	
-    	vw.write(bytes);
+    public void uploadFile(String filename) throws RemoteException, IOException{
+    	ViceWriter vw = this.venus.vice.upload(filename, this.mode);
+    	int n_blocks = (int) this.raf.length() / this.venus.BLOCKSIZE;
+    	byte[] bytes = new byte[this.venus.BLOCKSIZE];
+    	for (int i = 0; i < n_blocks; i++) {
+    		read(bytes);
+    		vw.write(bytes);
+    	}
+    	if ( this.raf.length() % this.venus.BLOCKSIZE > 0) {
+    		bytes = new byte[(int)this.raf.length() % this.venus.BLOCKSIZE];
+    		read(bytes);
+    		vw.write(bytes);
+    	}
     	vw.close();
     }
 }
