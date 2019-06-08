@@ -7,6 +7,7 @@ import java.rmi.*;
 public interface ViceWriter extends Remote {
     public void write(byte [] b) throws RemoteException, IOException;
     public void close() throws RemoteException, IOException;
+    public void adjust(long l) throws IOException; 
     /* añada los métodos remotos que requiera */
 }       
 

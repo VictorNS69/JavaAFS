@@ -7,6 +7,7 @@ import java.io.RandomAccessFile;
 import java.rmi.*;
 import java.rmi.server.*;
 
+@SuppressWarnings("serial")
 public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
     private static final String AFSDir = "AFSDir/";
     private RandomAccessFile raf;
@@ -23,6 +24,10 @@ public class ViceWriterImpl extends UnicastRemoteObject implements ViceWriter {
     
     public void close() throws IOException {
         this.raf.close();
+    }
+    
+    public void adjust(long l) throws IOException{
+    	this.raf.setLength(l);
     }
 }       
 
