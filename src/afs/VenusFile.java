@@ -20,7 +20,7 @@ public class VenusFile {
     	this.filename = fileName;
     	this.modified = false;
     	File file_cache = new File("./" + cacheDir + fileName);
-    	if (!file_cache.exists()) // && this.mode.equals("r")) 
+    	if (!file_cache.exists()) 
     		downloadFile(fileName, mode);
     	
     	this.raf = new RandomAccessFile("./" + this.cacheDir + fileName, mode);
@@ -45,16 +45,13 @@ public class VenusFile {
     }
     
     public void close() throws RemoteException, IOException {
-        if(this.mode.equals("rw") && this.modified) {
-        	System.out.println("UPLOADING!");
-        	//this.raf.seek(0);
+        if(this.mode.equals("rw") && this.modified)
         	uploadFile(this.filename);
-        }
         this.raf.close();
     }
     
     public void downloadFile(String filename, String mode) throws IOException {
-    	ViceReader vr = (ViceReader) this.venus.vice.download(filename, mode);
+    	ViceReader vr = (ViceReader) this.venus.vice.download(filename, mode, Venus.vcb);
     	RandomAccessFile raf = new RandomAccessFile("./" + cacheDir + filename, "rw");
     	byte[] bytes;
     	long size = vr.getSize();
@@ -65,7 +62,6 @@ public class VenusFile {
     		}
     		for(int i = 0; i < bytes.length && size-- > 0; i++) {
     			raf.write(bytes[i]);
-    			System.out.println(new String(bytes));
     		}
     	}
     	vr.close();
@@ -73,19 +69,15 @@ public class VenusFile {
     }
     
     public void uploadFile(String filename) throws RemoteException, IOException{
-    	ViceWriter vw = this.venus.vice.upload(filename, this.mode);
+    	ViceWriter vw = this.venus.vice.upload(filename, this.mode, Venus.vcb);
     	vw.adjust(this.raf.length());
     	this.raf.seek(0);
-    	System.out.println("file length: "+ this.raf.length());
     	int n_blocks = (int) this.raf.length() / this.venus.BLOCKSIZE;
     	byte[] bytes = new byte[this.venus.BLOCKSIZE];
-    	System.out.println("Nº blocks: " + n_blocks);
     	for (int i = 0; i < n_blocks; i++) {
     		read(bytes);
     		vw.write(bytes);
     	}
-    	System.out.println("Operation: " + this.raf.length() % this.venus.BLOCKSIZE);
-    	System.out.println("boolean result " + (this.raf.length() % this.venus.BLOCKSIZE > 0));
     	if ((this.raf.length() % this.venus.BLOCKSIZE) > 0) {
     		bytes = new byte[(int)this.raf.length() % this.venus.BLOCKSIZE];
     		read(bytes);
